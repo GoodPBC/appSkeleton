@@ -1,5 +1,7 @@
 var User = require('./models/user');
+//var User = require('./models/locate');
 module.exports = function(app, passport){
+
     app.get('/', function(req, res){
         res.render('index.ejs');
     });
@@ -20,7 +22,7 @@ module.exports = function(app, passport){
 
     //post route for passport local-login strategy (passport.js)
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/',
+        successRedirect: '/profile',
         failureRedirect: '/signup',
         failureFlash: true
     }));
@@ -35,11 +37,37 @@ module.exports = function(app, passport){
 
     //facebook auth route
     app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+
     //facebook auth callback route
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { successRedirect: '/profile',
             failureRedirect: '/' }));
 
+
+    app.get('/map', isLoggedIn, function (req, res) {
+        res.render('map.ejs', { user: req.user });
+    });
+
+    // app.get('/users', function(req, res) {
+    //    var query = MapUser.find({});
+    //     query.exec(function(err, users){
+    //         if(err)
+    //             res.send(err);
+    //
+    //         // If no errors are found, it responds with a JSON of all users. future should respond with a list of all users
+    //         res.json(users);
+    //     });
+    // });
+
+    app.post('/users', function(req, res) {
+        var newuser = new MapUser(req.body);
+        newuser.save(function (err) {
+            if (err)
+                res.send(err);
+            res.json(req.body);
+
+        });
+    });
 
     //logout route
     app.get('/logout', function(req, res){

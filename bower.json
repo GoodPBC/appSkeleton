@@ -1,0 +1,17 @@
+{
+  "name": "app-skeleton",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Joseph Pulaski <jpulaski79@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/GoodPBC/appSkeleton",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
